@@ -1,0 +1,32 @@
+/**index.wxss**/
+
+/** 本页面所有input组件应用样式 **/
+input {
+  background-color: lightgray;
+  margin: 10rpx;
+  padding: 25rpx;
+  border-radius: 5px;
+}
+
+/** 登陆页面最外层view样式 **/
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/** 开关及标签整体样式 **/
+.switch-area {
+  margin: 10rpx;
+}
+
+/** 开关所属label的样式 **/
+.switch-label {
+  padding: 0 30rpx;
+}
+
+/** 登陆按钮样式 **/
+.button-login {
+  margin: 50rpx;
+  padding: 0 50rpx;
+}

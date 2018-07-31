@@ -1,0 +1,36 @@
+<!--index.wxml-->
+<view class="container login-form">
+  <text style='padding: 20rpx;'>登陆到GitHub</text>
+
+  <view class='login-page'>
+    <input 
+      id='inputUsername' 
+      focus='true' 
+      hidden='{{useToken}}'
+      bindinput='usernameInputOnChange'
+      placeholder='{{placeHolderUsername}}'/>
+    
+    <input
+      id='inputPassword'
+      password='true'
+      bindinput='credentialInputOnChange'
+      placeholder='{{placeHolderCredential}}'/>
+
+    <label class='switch-area'>
+      <text class='switch-label'>使用token登陆</text>
+      <switch bindchange='switchLoginMethod'/>
+    </label>
+
+    <label class='switch-area'>
+      <text class='switch-label'>保存登陆信息到本机</text>
+      <switch bindchange='switchIfSaveCredential'/>
+    </label>
+
+    <button size='default' 
+            type='primary' 
+            class='button-login' 
+            bindtap='login'>
+      登陆GitHub
+    </button>
+  </view>
+</view>
