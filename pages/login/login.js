@@ -16,13 +16,10 @@ Page({
     // Is authenticating with token? 
     useToken: false,
     // Will the credential be saved on local?
-    saveCredential: false,
-    // Login credential from input
-    username: '',
-    credential: '',
+    saveCredential: true,
     // Information about the credential
-    savedCredential: {
-      loginMethod: 'password',
+    credential: {
+      loginMethod: 'Basic',
       username: '',
       credential: ''
     }
@@ -35,14 +32,40 @@ Page({
       imageUrl: '../../res/YetAnotherGitHubClient.png'
     }
   },
-  onLoad: function () {
-    // TODO: Check if the login credential exists
+  onLoad: function() {
+    let savedCredential = wx.getStorageSync('githubcredential');
+    
+    if (savedCredential) {
+      this.setData({
+        credential: savedCredential
+      });
+
+      if ('Basic' == savedCredential.loginMethod) {
+        let credential = base64util.base64_encode(
+          savedCredential.username + ':' + savedCredential.password
+        );
+        this.performLogin(
+          this, 
+          savedCredential.loginMethod, 
+          credential, 
+          this.checkLoginResult
+        );
+      } else {
+        this.performLogin(
+          this,
+          savedCredential.loginMethod,
+          savedCredential.credential,
+          this.checkLoginResult
+        );
+      }
+    }
+
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -76,17 +99,29 @@ Page({
   switchLoginMethod: function(e) {
     // Flip the flag for login method
     this.setData({
-      useToken: e.detail.value
+      useToken: e.detail.value,
     });
 
     // Update the place holder
     if (e.detail.value == false) {
+      // When using password
       this.setData({
-        placeHolderCredential: 'GitHub密码'
+        placeHolderCredential: 'GitHub密码',
+        credential: {
+          loginMethod: 'Basic',
+          username: this.data.credential.username,
+          credential: this.data.credential.credential
+        }
       })
     } else {
+      // When using token
       this.setData({
-        placeHolderCredential: 'GitHub Token'
+        placeHolderCredential: 'GitHub Token',
+        credential: {
+          loginMethod: 'token',
+          username: this.data.credential.username,
+          credential: this.data.credential.credential
+        }
       })
     }
   },
@@ -94,71 +129,96 @@ Page({
   swtichIfSaveCredential: function(e) {
     this.setData({
       saveCredential: e.detail.value
-    })
+    });
   },
   usernameInputOnChange: function(e) {
     this.setData({
-      username: e.detail.value
+      credential: {
+        loginMethod: this.data.credential.loginMethod,
+        username: e.detail.value,
+        credential: this.data.credential.credential
+      }
     })
   },
   credentialInputOnChange: function(e) {
     this.setData({
-      credential: e.detail.value
+      credential: {
+        loginMethod: this.data.credential.loginMethod,
+        username: this.data.credential.username,
+        credential: e.detail.value
+      }
     })
   },
-  login: function () {
+  /**
+   * How the login button works
+   */
+  login: function() {
+    if (this.data.useToken) {
+      // Logging in with token
+      this.performLogin(
+        this, 
+        'token', 
+        this.data.credential.credential, 
+        this.checkLoginResult
+      );
+    } else {
+      // Logging in with username and password
+      let username = this.data.credential.username;
+      let password = this.data.credential.credential;
+      let credential = base64util.base64_encode(username + ':' + password);
+      this.performLogin(this, 'Basic', credential, this.checkLoginResult);
+    }
+  },
+  /**
+   * Perform logging in to GitHub
+   * @param that Reference to the global context "this"
+   * @loginMethod The type of the authentication, "Basic" or "token"
+   * @credential The credential for logging in, token or the Base64-ed username and passsword combination
+   * @checkResultCallback Reference to the function which will handle the response
+   */
+  performLogin: (that, loginMethod, credential, checkResultCallback) => {
     wx.showLoading({
       title: '登陆中......'
-    })
+    });
 
-    if (this.data.useToken) {
-      wx.request({
-        url: 'https://api.github.com',
-        header: {
-          'Authorization': 'token ' + this.data.credential
-        },
-        success: resp => {
-          checkLoginResult(resp, this.data.notifications);
-        }
-      })
-    } else {
-      let username = this.data.username;
-      let password = this.data.credential;
-      let credential = base64util.base64_encode(username + ':' + password);
-      wx.request({
-        url: 'https://api.github.com',
-        header: {
-          'Authorization': 'Basic ' + credential
-        },
-        success: resp => {
-          checkLoginResult(resp, this.data.notifications);
-        }
-      })
+    wx.request({
+      url: 'https://api.github.com',
+      header: {
+        'Authorization': loginMethod +' ' + credential
+      },
+      success: resp => {
+        checkResultCallback(that, resp);
+      }
+    });
+  },
+  /**
+   * Handles the response of the login request
+   * @param that Reference to the global context "this"
+   * @resp The response of the login request
+   */
+  checkLoginResult: (that, resp) => {
+    let respData = resp.data;
+    let respCode = resp.statusCode;
+    wx.hideLoading();
+    if ('200' == respCode) {
+      // If the credential will be saved to local storage
+      if (that.data.saveCredential) {
+        wx.setStorage({
+          key: 'githubcredential',
+          data: that.data.credential
+        })
+      }
+      // TODO: Jump to main page
+    } else if ('401' == respCode) {
+      wx.showToast({
+        title: that.data.notifications.notificationBadLogin,
+        icon: 'none'
+      });
+    } else if ('403' == respCode) {
+      wx.showToast({
+        title: that.data.notifications.notificationForbidden,
+        icon: 'none'
+      });
     }
   }
 })
-
-/**
- * Check if the login is successful
- * @param resp The response from wx.request
- * @param toastNotifications A group of notification messages
- */
-const checkLoginResult = (resp, toastNotifications) => {
-  let that = this;
-  let respData = resp.data;
-  let respCode = resp.statusCode;
-  wx.hideLoading();
-  if ('200' == respCode) {
-    // TODO: Jump to main page
-  } else if ('401' == respCode) {
-    wx.showToast({
-      title: toastNotifications.notificationBadLogin,
-      icon: 'none'
-    });
-  } else if ('403' == respCode) {
-    wx.showToast({
-      title: toastNotifications.notificationForbidden,
-      icon: 'none'
-    });
-  }
-}

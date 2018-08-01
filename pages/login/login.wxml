@@ -23,7 +23,7 @@
 
     <label class='switch-area'>
       <text class='switch-label'>保存登陆信息到本机</text>
-      <switch bindchange='switchIfSaveCredential'/>
+      <switch bindchange='swtichIfSaveCredential' checked='true'/>
     </label>
 
     <button size='default' 
