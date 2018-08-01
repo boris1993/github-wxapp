@@ -1,4 +1,9 @@
 /**app.wxss**/
+page {
+  background-color: #2C3E50;
+  color: white;
+}
+
 .container {
   height: 100%;
   display: flex;
