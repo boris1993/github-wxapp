@@ -6,6 +6,13 @@ input {
   margin: 10rpx;
   padding: 25rpx;
   border-radius: 5px;
+  color: black;
+}
+
+/** 页面顶端标题样式 **/
+.title {
+  padding: 20rpx; 
+  font-size: 150%;
 }
 
 /** 登陆页面最外层view样式 **/

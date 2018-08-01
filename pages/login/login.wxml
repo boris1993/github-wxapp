@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container login-form">
-  <text style='padding: 20rpx; font-size: 150%'>登陆到GitHub</text>
+  <text class='title'>登陆到GitHub</text>
 
   <view class='login-page'>
     <input 

@@ -8,6 +8,11 @@ Page({
     // Placeholders
     placeHolderUsername: 'GitHub用户名',
     placeHolderCredential: 'GitHub密码',
+    // Notifications
+    notifications: {
+      notificationBadLogin: '登陆失败',
+      notificationForbidden: '错误次数过多，登陆功能已被停用，请稍后再试'
+    },
     // Is authenticating with token? 
     useToken: false,
     // Will the credential be saved on local?
@@ -102,45 +107,58 @@ Page({
     })
   },
   login: function () {
+    wx.showLoading({
+      title: '登陆中......'
+    })
+
     if (this.data.useToken) {
       wx.request({
         url: 'https://api.github.com',
         header: {
           'Authorization': 'token ' + this.data.credential
         },
-        success: function(resp) {
-          let respData = resp.data;
-          let respCode = resp.statusCode
-          if ('200' == respCode) {
-            console.log('successful')
-          } else if ('401' == respCode) {
-            console.log('unauthorized')
-          } else if ('403' == respCode) {
-            console.log('forbidden')
-          }
+        success: resp => {
+          checkLoginResult(resp, this.data.notifications);
         }
       })
     } else {
       let username = this.data.username;
       let password = this.data.credential;
-      let credential = base64util.base64_encode(username + ':' + credential);
+      let credential = base64util.base64_encode(username + ':' + password);
       wx.request({
         url: 'https://api.github.com',
         header: {
           'Authorization': 'Basic ' + credential
         },
-        success: function (resp) {
-          let respData = resp.data;
-          let respCode = resp.statusCode
-          if ('200' == respCode) {
-            console.log('successful')
-          } else if ('401' == respCode) {
-            console.log('unauthorized')
-          } else if ('403' == respCode) {
-            console.log('forbidden')
-          }
+        success: resp => {
+          checkLoginResult(resp, this.data.notifications);
         }
       })
     }
   }
 })
+
+/**
+ * Check if the login is successful
+ * @param resp The response from wx.request
+ * @param toastNotifications A group of notification messages
+ */
+const checkLoginResult = (resp, toastNotifications) => {
+  let that = this;
+  let respData = resp.data;
+  let respCode = resp.statusCode;
+  wx.hideLoading();
+  if ('200' == respCode) {
+    // TODO: Jump to main page
+  } else if ('401' == respCode) {
+    wx.showToast({
+      title: toastNotifications.notificationBadLogin,
+      icon: 'none'
+    });
+  } else if ('403' == respCode) {
+    wx.showToast({
+      title: toastNotifications.notificationForbidden,
+      icon: 'none'
+    });
+  }
+}
