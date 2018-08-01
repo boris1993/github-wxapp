@@ -31,10 +31,6 @@ App({
           })
         }
       }
-    }),
-    // Set the title globally
-    wx.setNavigationBarTitle({
-      title: 'Yet Another GitHub un-official client',
     })
   },
   globalData: {
