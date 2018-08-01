@@ -149,7 +149,8 @@ Page({
     wx.request({
       url: 'https://api.github.com',
       header: {
-        'Authorization': loginMethod +' ' + credential
+        'Authorization': loginMethod +' ' + credential,
+        'Accept': 'application / vnd.github.v3 + json'
       },
       success: resp => {
         checkResultCallback(that, resp);
