@@ -34,6 +34,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    modalTitles: {
+      error: '错误'
+    }
   }
 })

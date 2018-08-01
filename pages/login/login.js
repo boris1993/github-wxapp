@@ -119,19 +119,36 @@ Page({
    */
   login: function() {
     if (this.data.useToken) {
-      // Logging in with token
-      this.performLogin(
-        this, 
-        'token', 
-        this.data.credential.credential, 
-        this.checkLoginResult
-      );
+      if (this.data.credential.credential != '') {
+        // Logging in with token
+        this.performLogin(
+          this,
+          'token',
+          this.data.credential.credential,
+          this.checkLoginResult
+        );
+      } else {
+        wx.showModal({
+          title: app.globalData.modalTitles.error,
+          content: 'Token不可为空',
+          showCancel: false
+        });
+      }
     } else {
       // Logging in with username and password
-      let username = this.data.credential.username;
-      let password = this.data.credential.credential;
-      let credential = base64util.base64_encode(username + ':' + password);
-      this.performLogin(this, 'Basic', credential, this.checkLoginResult);
+      if (this.data.credential.username == '' 
+          || this.data.credential.password == '') {
+        wx.showModal({
+          title: app.globalData.modalTitles.error,
+          content: '用户名和密码不可为空',
+          showCancel: false
+        });
+      } else {
+        let username = this.data.credential.username;
+        let password = this.data.credential.credential;
+        let credential = base64util.base64_encode(username + ':' + password);
+        this.performLogin(this, 'Basic', credential, this.checkLoginResult);
+      }
     }
   },
   /**
