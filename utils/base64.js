@@ -1,5 +1,5 @@
 // http://www.wxapp-union.com/thread-3803-1-1.html
-function base64_encode(str) {
+const base64_encode = str => {
   var c1, c2, c3;
   var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var i = 0, len = str.length, string = '';
