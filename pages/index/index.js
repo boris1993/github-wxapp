@@ -17,7 +17,11 @@ Page({
     notifications: {
       loadingUserInfo: '正在加载...'
     },
-    githubUser: {}
+    githubUser: {
+      public_repos: 0,
+      followers: 0,
+      following: 0
+    }
   },
 
   /**
