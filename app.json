@@ -1,12 +1,16 @@
 {
-  "pages":[
+  "pages": [
     "pages/login/login",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/index/index",
+    "pages/feed/feed",
+    "pages/repos/repos",
+    "pages/overview/overview"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#2C3E50",
     "navigationBarTitleText": "Yet Another GitHub un-official client",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   }
 }

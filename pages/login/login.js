@@ -28,7 +28,7 @@ Page({
   onShareAppMessage: function(res) {
     return {
       title: 'Yet Another GitHub client',
-      path: '/page/index',
+      path: '/page/login/login',
       imageUrl: '../../res/YetAnotherGitHubClient.png'
     }
   },
@@ -191,7 +191,11 @@ Page({
           data: that.data.credential
         })
       }
+      app.globalData.credential = that.data.credential;
       // TODO: Jump to main page
+      wx.redirectTo({
+        url: '/pages/index/index'
+      })
     } else if ('401' == respCode) {
       wx.showToast({
         title: that.data.notifications.notificationBadLogin,

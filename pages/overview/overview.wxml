@@ -1,0 +1,25 @@
+<!-- Overview -->
+<!-- Avatar, username, etc. -->
+<view class="weui-flex">
+  <view class="weui-flex__item">
+    <view class="header">
+      <image src="{{githubUser.avatar_url}}" 
+              bindtap='previewAvatar' 
+              class='avatar'></image>
+    </view>
+    <view>
+      <text class='username'>{{githubUser.name}} ({{githubUser.login}})</text>
+    </view>
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <text>{{githubUser.public_repos}}\n项目</text>
+      </view>
+      <view class="weui-flex__item">
+        <text>{{githubUser.followers}}\n关注我</text>
+      </view>
+      <view class="weui-flex__item">
+        <text>{{githubUser.following}}\n关注中</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -36,6 +36,11 @@ App({
   globalData: {
     modalTitles: {
       error: '错误'
+    },
+    // Login credential will be saved here after a successful login
+    credential: {
+      loginMethod: 'Basic',
+      credential: ''
     }
   }
 })
