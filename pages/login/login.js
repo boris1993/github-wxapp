@@ -26,11 +26,7 @@ Page({
   },
   // Customize the sharing
   onShareAppMessage: function(res) {
-    return {
-      title: 'Yet Another GitHub client',
-      path: '/page/login/login',
-      imageUrl: '../../res/YetAnotherGitHubClient.png'
-    }
+    return app.globalData.sharing;
   },
   onLoad: function() {
     let savedCredential = wx.getStorageSync('githubcredential');

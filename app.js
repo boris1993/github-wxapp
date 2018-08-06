@@ -34,6 +34,11 @@ App({
     })
   },
   globalData: {
+    sharing: {
+      title: 'Yet Another GitHub client',
+      path: '/page/login/login',
+      imageUrl: '../../res/YetAnotherGitHubClient.png'
+    },
     modalTitles: {
       error: '错误'
     },

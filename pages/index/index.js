@@ -87,8 +87,8 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
+  onShareAppMessage: function(res) {
+    return app.globalData.sharing;
   },
   /**
    * When changing tab
@@ -137,5 +137,18 @@ Page({
     wx.previewImage({
       urls: [this.data.githubUser.avatar_url],
     })
+  },
+  /**
+   * Refresh when pull down
+   */
+  onPullDownRefresh: function() {
+    if (this.data.activeIndex === 0) {
+
+    } else if (this.data.activeIndex === 1) {
+      this.getGitHubUserInfo();
+    } else if (this.data.activeIndex === 2) {
+
+    }
+    wx.stopPullDownRefresh();
   }
 })
