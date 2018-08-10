@@ -42,6 +42,9 @@ App({
     modalTitles: {
       error: '错误'
     },
+    notifications: {
+      networkError: '网络请求失败，请稍后再试'
+    },
     // Login credential will be saved here after a successful login
     credential: {
       loginMethod: 'Basic',
