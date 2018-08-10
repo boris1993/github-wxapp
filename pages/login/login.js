@@ -160,7 +160,8 @@ Page({
    */
   performLogin: (that, loginMethod, credential, checkResultCallback) => {
     wx.showLoading({
-      title: '登陆中......'
+      title: '登陆中......',
+      mask: true
     });
 
     wx.request({
@@ -200,7 +201,6 @@ Page({
         })
       }
       app.globalData.credential = that.data.credential;
-      // TODO: Jump to main page
       wx.redirectTo({
         url: '/pages/index/index'
       })
