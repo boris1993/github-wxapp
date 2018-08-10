@@ -1,18 +1,22 @@
-<!-- Overview -->
+<!-- Overview part of the index page -->
 <!-- Avatar, username, etc. -->
-<view class="weui-flex">
+<view class="weui-flex" id="overview-info">
   <view class="weui-flex__item">
+
     <view class="header">
-      <image src="{{githubUser.avatar_url}}" 
-              bindtap='previewAvatar' 
-              class='avatar'></image>
+      <image src="{{githubUser.avatar_url}}" bindtap='previewAvatar' class='avatar'></image>
     </view>
+
     <view>
       <text class='username'>{{githubUser.name}} ( {{githubUser.login}} )</text>
     </view>
+
     <view class="weui-flex">
       <view class="weui-flex__item">
         <text>{{githubUser.public_repos}}\n项目</text>
+      </view>
+      <view class="weui-flex__item">
+        <text>{{githubUser.public_gists}}\nGist</text>
       </view>
       <view class="weui-flex__item">
         <text>{{githubUser.followers}}\n关注我</text>
@@ -22,4 +26,22 @@
       </view>
     </view>
   </view>
+
 </view>
+
+<!-- <view class='line'></view> -->
+
+<text hidden='{{isReposFetched}}'>仓库列表载入中......</text>
+
+<scroll-view style="height: {{scrollViewHeight}}px" scroll-y="true">
+  <view class="repo-list weui-cells weui-cells_after-title" wx:for="{{repos}}">
+    <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <icon wx:if="{{item.fork == true}}" class='fa fa-code-fork' aria-hidden="true"></icon>
+        <icon wx:if="{{item.fork == false}}" class='fa fa-book' aria-hidden="true"></icon>
+      </view>
+      <view class="weui-cell__bd">cell standard</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">说明文字</view>
+    </navigator>
+  </view>
+</scroll-view>

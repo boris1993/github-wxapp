@@ -9,9 +9,13 @@ Page({
     placeHolderUsername: 'GitHub用户名',
     placeHolderCredential: 'GitHub密码',
     // Notifications
+    modalTitles: {
+      error: '错误'
+    },
     notifications: {
-      notificationBadLogin: '登陆失败',
-      notificationForbidden: '错误次数过多，登陆功能已被停用，请稍后再试'
+      badLogin: '登陆失败',
+      forbidden: '错误次数过多，登陆功能已被停用，请稍后再试',
+      networkError: '网络请求失败，请稍后再试'
     },
     // Is authenticating with token? 
     useToken: false,
@@ -167,6 +171,14 @@ Page({
       },
       success: resp => {
         checkResultCallback(that, resp);
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showModal({
+          title: app.globalData.modalTitles.error,
+          content: app.globalData.notifications.networkError,
+          showCancel: false
+        })
       }
     });
   },
@@ -194,12 +206,12 @@ Page({
       })
     } else if ('401' == respCode) {
       wx.showToast({
-        title: that.data.notifications.notificationBadLogin,
+        title: that.data.notifications.badLogin,
         icon: 'none'
       });
     } else if ('403' == respCode) {
       wx.showToast({
-        title: that.data.notifications.notificationForbidden,
+        title: that.data.notifications.forbidden,
         icon: 'none'
       });
     }

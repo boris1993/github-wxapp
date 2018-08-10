@@ -14,6 +14,22 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+/**
+ * Convert rpx to px
+ */
+const rpx2px = (rpx, windowWidth) => {
+  return rpx / windowWidth;
+}
+
+/**
+ * Convert px to rpx
+ */
+const px2rpx = (px, windowWidth) => {
+  return px * windowWidth;
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  rpx2px: rpx2px,
+  px2rpx: px2rpx
 }
