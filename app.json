@@ -12,5 +12,8 @@
     "navigationBarBackgroundColor": "#2C3E50",
     "navigationBarTitleText": "Yet Another GitHub un-official client",
     "navigationBarTextStyle": "white"
+  },
+  "networkTimeout": {
+    "request": 10000
   }
 }
