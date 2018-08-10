@@ -18,7 +18,7 @@ Page({
     windowHeight: 0,
     navbarHeight: 0,
     headerHeight: 0,
-    scrollViewHeight: 0,
+    scrollViewHeight: 21, // See the scroll-view part in overview.wxml
     notifications: {
       loadingUserInfo: '正在加载...'
     },
@@ -183,8 +183,9 @@ Page({
   getGitHubUserInfo: (that) => {
     return new Promise((resolve, reject) => {
       wx.showLoading({
-        title: that.data.notifications.loadingUserInfo
-      })
+        title: that.data.notifications.loadingUserInfo,
+        mask: true
+      });
 
       wx.request({
         url: 'https://api.github.com/user',

@@ -29,19 +29,25 @@
 
 </view>
 
-<!-- <view class='line'></view> -->
+<view class='line'></view>
 
 <text hidden='{{isReposFetched}}'>仓库列表载入中......</text>
 
-<scroll-view style="height: {{scrollViewHeight}}px" scroll-y="true">
+<scroll-view style="height: {{scrollViewHeight - 20}}px" scroll-y="true">
   <view class="repo-list weui-cells weui-cells_after-title" wx:for="{{repos}}">
     <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">
         <icon wx:if="{{item.fork == true}}" class='fa fa-code-fork' aria-hidden="true"></icon>
         <icon wx:if="{{item.fork == false}}" class='fa fa-book' aria-hidden="true"></icon>
       </view>
-      <view class="weui-cell__bd">cell standard</view>
-      <view class="weui-cell__ft weui-cell__ft_in-access">说明文字</view>
+      <view class="weui-cell__bd">
+        <text>{{item.name}}</text>
+      </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">
+        <icon class='fa fa-star' aria-hidden="true">
+          <text class='counts'>{{item.stargazers_count}}</text>
+        </icon>
+      </view>
     </navigator>
   </view>
 </scroll-view>
