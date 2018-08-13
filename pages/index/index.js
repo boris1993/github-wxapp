@@ -123,6 +123,7 @@ Page({
     }
     wx.stopPullDownRefresh();
   },
+
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -136,6 +137,7 @@ Page({
   onShareAppMessage: function(res) {
     return app.globalData.sharing;
   },
+
   /**
    * When changing tab
    */
@@ -145,6 +147,7 @@ Page({
       activeIndex: e.currentTarget.id
     });
   },
+
   /**
    * Preview avatar when touched
    */
@@ -153,6 +156,7 @@ Page({
       urls: [this.data.githubUser.avatar_url],
     })
   },
+
   /**
    * Initialize
    */
@@ -170,6 +174,7 @@ Page({
         });
       });
   },
+
   /**
    * Get GitHub user info
    */
@@ -201,6 +206,7 @@ Page({
       });
     })
   },
+
   /**
    * Get repositories
    */
@@ -226,4 +232,4 @@ Page({
       });
     });
   }
-})
+});
