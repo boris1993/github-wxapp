@@ -113,9 +113,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
+    let that = this;
+    if (this.data.activeIndex === 0) {
 
+    } else if (this.data.activeIndex === 1) {
+      this.initialize(that);
+    } else if (this.data.activeIndex === 2) {
+
+    }
+    wx.stopPullDownRefresh();
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -162,20 +169,6 @@ Page({
           showCancel: false
         });
       });
-  },
-  /**
-   * Refresh when pull down
-   */
-  onPullDownRefresh: function() {
-    let that = this;
-    if (this.data.activeIndex === 0) {
-
-    } else if (this.data.activeIndex === 1) {
-      this.initialize(that);
-    } else if (this.data.activeIndex === 2) {
-
-    }
-    wx.stopPullDownRefresh();
   },
   /**
    * Get GitHub user info
