@@ -41,7 +41,7 @@
         <icon wx:if="{{item.fork == false}}" class='fa fa-book' aria-hidden="true"></icon>
       </view>
       <view class="weui-cell__bd">
-        <text>{{item.name}}</text>
+        <text class="repo-item">{{item.name}}</text>
       </view>
       <view class="weui-cell__ft weui-cell__ft_in-access">
         <icon class='fa fa-star' aria-hidden="true">

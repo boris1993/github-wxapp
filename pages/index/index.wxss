@@ -57,7 +57,13 @@ icon {
   margin: 0 20rpx;
 }
 
+.repo-item {
+  font-family: 'Fira Code';
+  font-weight: normal;
+  font-style: normal;
+}
+
 .counts {
   margin: 0 10rpx;
-  font-size:30rpx
+  font-size: 30rpx;
 }
