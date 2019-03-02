@@ -9,10 +9,12 @@
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"nodeModules": true
+		"nodeModules": true,
+		"autoAudits": true,
+		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.2.1",
+	"libVersion": "2.6.1",
 	"appid": "wxddea94fe27d6ff9a",
 	"projectname": "github-wxapp",
 	"isGameTourist": false,
