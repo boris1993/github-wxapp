@@ -186,7 +186,7 @@ Page({
       });
 
       wx.request({
-        url: 'https://api.github.com/user',
+        url: app.globalData.urls.apiAddress + '/user',
         header: {
           'Authorization': app.globalData.credential.loginMethod + ' ' +
             that.data.loginCredential,

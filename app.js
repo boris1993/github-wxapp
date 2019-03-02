@@ -45,6 +45,11 @@ App({
     notifications: {
       networkError: '网络请求失败，请稍后再试'
     },
+    urls: {
+      // 发布版需要将其替换成一个已备案的域名
+      // 并将其添加到小程序后台的"request合法域名"中
+      apiAddress: 'https://api.github.com'
+    },
     // Login credential will be saved here after a successful login
     credential: {
       loginMethod: 'Basic',

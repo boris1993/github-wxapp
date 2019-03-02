@@ -32,8 +32,9 @@ input {
   padding: 0 30rpx;
 }
 
-/** 登陆按钮样式 **/
-.button-login {
-  margin: 50rpx;
+/** 按钮样式 **/
+.button {
+  margin: 50rpx 50rpx 50rpx;
   padding: 0 50rpx;
+  width: 430rpx;
 }

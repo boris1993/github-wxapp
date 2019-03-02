@@ -13,7 +13,7 @@ Page({
       error: '错误'
     },
     notifications: {
-      badLogin: '登陆失败',
+      badLogin: '登陆失败，请检查用户名、密码、token是否正确，以及是否启用了二次验证',
       forbidden: '错误次数过多，登陆功能已被停用，请稍后再试',
       networkError: '网络请求失败，请稍后再试'
     },
@@ -34,7 +34,7 @@ Page({
   },
   onLoad: function() {
     let savedCredential = wx.getStorageSync('githubcredential');
-    
+
     if (savedCredential) {
       this.setData({
         credential: savedCredential
@@ -45,9 +45,9 @@ Page({
           savedCredential.username + ':' + savedCredential.password
         );
         this.performLogin(
-          this, 
-          savedCredential.loginMethod, 
-          credential, 
+          this,
+          savedCredential.loginMethod,
+          credential,
           this.checkLoginResult
         );
       } else {
@@ -64,7 +64,7 @@ Page({
   switchLoginMethod: function(e) {
     // Flip the flag for login method
     this.setData({
-      useToken: e.detail.value,
+      useToken: e.detail.value
     });
 
     // Update the place holder
@@ -136,8 +136,8 @@ Page({
       }
     } else {
       // Logging in with username and password
-      if (this.data.credential.username == '' 
-          || this.data.credential.password == '') {
+      if (this.data.credential.username == '' ||
+        this.data.credential.password == '') {
         wx.showModal({
           title: app.globalData.modalTitles.error,
           content: '用户名和密码不可为空',
@@ -165,9 +165,9 @@ Page({
     });
 
     wx.request({
-      url: 'https://api.github.com',
+      url: app.globalData.urls.apiAddress,
       header: {
-        'Authorization': loginMethod +' ' + credential,
+        'Authorization': loginMethod + ' ' + credential,
         'Accept': 'application / vnd.github.v3 + json'
       },
       success: resp => {
@@ -207,12 +207,14 @@ Page({
     } else if ('401' == respCode) {
       wx.showToast({
         title: that.data.notifications.badLogin,
-        icon: 'none'
+        icon: 'none',
+        duration: 3000
       });
     } else if ('403' == respCode) {
       wx.showToast({
         title: that.data.notifications.forbidden,
-        icon: 'none'
+        icon: 'none',
+        duration: 3000
       });
     }
   }

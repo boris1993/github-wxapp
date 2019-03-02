@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container login-form">
+<view class="container">
   <text class='title'>登陆到GitHub</text>
 
   <view class='login-page'>
@@ -28,9 +28,11 @@
 
     <button size='default' 
             type='primary' 
-            class='button-login' 
+            class='button' 
             bindtap='login'>
       登陆GitHub
     </button>
+
+    <text>如果开启了二次验证，则请使用token登录</text>
   </view>
 </view>
