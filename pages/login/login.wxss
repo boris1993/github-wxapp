@@ -9,12 +9,6 @@ input {
   color: black;
 }
 
-/** 页面顶端标题样式 **/
-.title {
-  padding: 20rpx; 
-  font-size: 150%;
-}
-
 /** 登陆页面最外层view样式 **/
 .login-page {
   display: flex;
@@ -34,7 +28,13 @@ input {
 
 /** 按钮样式 **/
 .button {
-  margin: 50rpx 50rpx 50rpx;
+  margin: 50rpx 50rpx 0;
   padding: 0 50rpx;
   width: 430rpx;
+}
+
+/** 页面底部提示信息 **/
+.bottom-text {
+  margin: 50rpx 50rpx 0;
+  font-size: 35rpx;
 }

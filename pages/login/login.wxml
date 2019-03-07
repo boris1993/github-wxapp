@@ -33,6 +33,10 @@
       登陆GitHub
     </button>
 
-    <text>如果开启了二次验证，则请使用token登录</text>
+    <text class='bottom-text'>如果开启了二次验证，请使用token登录</text>
+
+    <text class='bottom-text'>
+      如果提示网络错误，可能是因为反代节点正在重启，请等候2~10秒后重试
+    </text>
   </view>
 </view>
