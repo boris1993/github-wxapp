@@ -13,9 +13,15 @@ page {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
+  padding: 0;
   box-sizing: border-box;
 } 
+
+/** 页面顶端标题样式 **/
+.title {
+  padding: 20rpx; 
+  font-size: 150%;
+}
 
 @import "font-awesome.wxss";
 
