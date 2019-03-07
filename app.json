@@ -4,8 +4,8 @@
     "pages/logs/logs",
     "pages/index/index",
     "pages/feed/feed",
-    "pages/repos/repos",
-    "pages/overview/overview"
+    "pages/overview/overview",
+    "pages/profile/profile"
   ],
   "window": {
     "backgroundTextStyle": "light",

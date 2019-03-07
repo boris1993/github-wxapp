@@ -15,7 +15,7 @@
       <view class="weui-tab__panel">
         <!-- Feed -->
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          选项一的内容
+          <include src="../feed/feed.wxml" />
         </view>
 
         <!-- Home -->
@@ -25,7 +25,7 @@
 
         <!-- Profile -->
         <view class="weui-tab__content" hidden="{{activeIndex != 2}}">
-          选项三的内容
+          <include src="../profile/profile.wxml" />
         </view>
       </view>
     </view>
