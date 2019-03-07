@@ -4,7 +4,11 @@
   <view class="weui-flex__item">
 
     <view class="header">
-      <image src="{{githubUser.avatar_url}}" bindtap='previewAvatar' class='avatar'></image>
+      <image 
+        src="{{githubUser.avatar_url}}" 
+        bindtap='previewAvatar' 
+        class='avatar'>
+      </image>
     </view>
 
     <view>
@@ -33,7 +37,7 @@
 
 <text hidden='{{isReposFetched}}'>仓库列表载入中......</text>
 
-<scroll-view style="height: {{scrollViewHeight - 20}}px" scroll-y="true">
+<scroll-view style="height: {{scrollViewHeight - 20}}px" scroll-y="true" bindscrolltolower="getMoreRepositories" lower-threshold="300rpx">
   <view class="repo-list weui-cells weui-cells_after-title" wx:for="{{repos}}">
     <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
       <view class="weui-cell__hd">
