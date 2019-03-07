@@ -1,7 +1,6 @@
 // pages/main/main.js
 const app = getApp();
 const base64util = require('../../utils/base64.js');
-const sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 
 Page({
 
@@ -12,8 +11,6 @@ Page({
     // Navbar
     tabs: ["动态", "主页", "资料"],
     activeIndex: 1,
-    sliderOffset: 0,
-    sliderLeft: 0,
     loginCredential: "",
     windowHeight: 0,
     navbarHeight: 0,
@@ -28,7 +25,11 @@ Page({
       following: "--"
     },
     repos: {},
-    isReposFetched: false
+    reposPage: 1,
+    reposPerPage: 10,
+    isReposFetched: false,
+    isReposFetching: false,
+    isAllReposFetched: false
   },
 
   /**
@@ -40,9 +41,7 @@ Page({
     wx.getSystemInfo({
       success: function(res) {
         that.setData({
-          windowHeight: res.windowHeight,
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+          windowHeight: res.windowHeight
         });
       }
     });
@@ -161,6 +160,11 @@ Page({
    * Initialize
    */
   initialize: (that) => {
+    that.setData({
+      repos: {},
+      reposPage: 1,
+      isAllReposFetched: false
+    });
     that.getGitHubUserInfo(that)
       .then(() => {
         // Fetch a list of repositories
@@ -193,8 +197,16 @@ Page({
           'Accept': 'application / vnd.github.v3 + json'
         },
         success: resp => {
+          var respData = resp.data;
+
+          for (var key in respData) {
+            if (String(respData[key]).indexOf(app.globalData.urls.originalApiAddress) !== -1) {
+              respData[key] = String(respData[key]).replace(app.globalData.urls.originalApiAddress, app.globalData.urls.apiAddress);
+            }
+          }
+
           that.setData({
-            githubUser: resp.data
+            githubUser: respData
           });
           wx.hideLoading();
           return resolve();
@@ -213,7 +225,9 @@ Page({
   getRepositories: (that) => {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: that.data.githubUser.repos_url,
+        url: that.data.githubUser.repos_url 
+          + '?page=' + that.data.reposPage
+          + '&per_page=' + that.data.reposPerPage,
         header: {
           'Authorization': app.globalData.credential.loginMethod + ' ' +
             that.data.loginCredential,
@@ -222,7 +236,8 @@ Page({
         success: resp => {
           that.setData({
             repos: resp.data,
-            isReposFetched: true
+            isReposFetched: true,
+            reposPage: ++(that.data.reposPage)
           });
           return resolve();
         },
@@ -230,6 +245,67 @@ Page({
           reject();
         }
       });
+    });
+  },
+
+  /**
+   * Fetch more repos
+   */
+  getMoreRepositories: function () {
+    let that = this;
+
+    if (that.data.isAllReposFetched || that.data.isReposFetching) {
+      return;
+    }
+
+    // "Lock" this method for preventing duplicate request
+    that.setData({
+      isReposFetching: true
+    });
+
+    wx.request({
+      url: that.data.githubUser.repos_url
+        + '?page=' + that.data.reposPage
+        + '&per_page=' + that.data.reposPerPage,
+      header: {
+        'Authorization': app.globalData.credential.loginMethod + ' ' +
+          that.data.loginCredential,
+        'Accept': 'application / vnd.github.v3 + json'
+      },
+      success: resp => {
+        var moreRepos = that.data.repos;
+        
+        if (resp.data.length <= that.data.reposPerPage) {
+          that.setData({
+            isAllReposFetched: true
+          });
+        }
+
+        if (resp.data.length === 0) {
+          return;
+        }
+
+        for (var index in resp.data) {
+          moreRepos.push(resp.data[index]);
+        }
+
+        that.setData({
+          repos: moreRepos,
+          reposPage: ++(that.data.reposPage),
+          isReposFetching: false
+        });
+      },
+      fail: () => {
+        that.setData({
+          isReposFetching: false
+        });
+        
+        wx.showModal({
+          title: app.globalData.modalTitles.error,
+          content: app.globalData.notifications.networkError,
+          showCancel: false
+        });
+      }
     });
   }
 });

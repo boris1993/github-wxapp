@@ -16,6 +16,11 @@ icon {
   text-align: center;
 }
 
+.weui-tab__on {
+  background-color: #1aad19;
+  color: white;
+}
+
 .weui-cells:before {
   border-top: 0;
 }
