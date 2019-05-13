@@ -9,13 +9,14 @@ Page({
    */
   data: {
     // Navbar
-    tabs: ["动态", "主页", "资料"],
+    tabs: ["通知", "主页", "资料"],
     activeIndex: 1,
     loginCredential: "",
     windowHeight: 0,
     navbarHeight: 0,
     headerHeight: 0,
     scrollViewHeight: 21, // See the scroll-view part in overview.wxml
+    notificationsScrollViewHeight: 21,
     notifications: {
       loadingUserInfo: '正在加载...'
     },
@@ -26,10 +27,14 @@ Page({
     },
     repos: {},
     reposPage: 1,
-    reposPerPage: 10,
+    reposPerPage: 50,
+    notificationMessages: [],
+    notificationsPage: 1,
+    notificationsPerPage: 50,
     isReposFetched: false,
     isReposFetching: false,
-    isAllReposFetched: false
+    isAllReposFetched: false,
+    hasNewNotifications: false
   },
 
   /**
@@ -70,9 +75,11 @@ Page({
       let headerHeight = res[1].height;
 
       let scrollViewHeight = this.data.windowHeight - navbarHeight - headerHeight;
+      let notificationsScrollViewHeight = this.data.windowHeight - navbarHeight;
 
       this.setData({
-        scrollViewHeight: scrollViewHeight
+        scrollViewHeight: scrollViewHeight,
+        notificationsScrollViewHeight: notificationsScrollViewHeight
       });
     });
 
@@ -170,6 +177,10 @@ Page({
         // Fetch a list of repositories
         return that.getRepositories(that);
       })
+      .then(() => {
+        // Fetch activities
+        return that.getNotifications(that);
+      })
       .catch(() => {
         wx.showModal({
           title: app.globalData.modalTitles.error,
@@ -234,11 +245,48 @@ Page({
           'Accept': 'application / vnd.github.v3 + json'
         },
         success: resp => {
+          if (resp.data.length <= that.data.reposPerPage) {
+            that.setData({
+              isAllReposFetched: true
+            });
+          }
+
           that.setData({
             repos: resp.data,
             isReposFetched: true,
             reposPage: ++(that.data.reposPage)
           });
+          return resolve();
+        },
+        fail: () => {
+          reject();
+        }
+      });
+    });
+  },
+
+  /**
+   * Get notifications
+   */
+  getNotifications: (that) => {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: app.globalData.urls.apiAddress + "/notifications"
+          + '?page=' + that.data.notificationsPage
+          + '&per_page=' + that.data.notificationsPerPage,
+        header: {
+          'Authorization': app.globalData.credential.loginMethod + ' '
+            + that.data.loginCredential,
+          'Accept': 'application / vnd.github.v3 + json'
+        },
+        success: resp => {
+          if (resp.data.length !== 0) {
+            that.setData({
+              notificationMessages: resp.data,
+              notificationsPage: ++(that.data.notificationsPage),
+              hasNewNotifications: true
+            });
+          }
           return resolve();
         },
         fail: () => {
@@ -307,5 +355,8 @@ Page({
         });
       }
     });
+  },
+  getMoreNotifications: function () {
+
   }
 });

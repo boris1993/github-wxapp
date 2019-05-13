@@ -15,7 +15,7 @@
       <view class="weui-tab__panel">
         <!-- Feed -->
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          <include src="../feed/feed.wxml" />
+          <include src="../notifications/notifications.wxml" />
         </view>
 
         <!-- Home -->
