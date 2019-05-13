@@ -3,7 +3,7 @@
     "pages/login/login",
     "pages/logs/logs",
     "pages/index/index",
-    "pages/feed/feed",
+    "pages/notifications/notifications",
     "pages/overview/overview",
     "pages/profile/profile"
   ],
@@ -11,10 +11,10 @@
     "backgroundTextStyle": "light",
     "backgroundColor": "#2C3E50",
     "navigationBarBackgroundColor": "#2C3E50",
-    "navigationBarTitleText": "Yet Another GitHub un-official client",
+    "navigationBarTitleText": "Yet Another GitHub Unofficial Client",
     "navigationBarTextStyle": "white"
   },
   "networkTimeout": {
-    "request": 10000
+    "request": 20000
   }
 }

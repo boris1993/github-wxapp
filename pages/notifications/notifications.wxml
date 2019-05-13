@@ -1,0 +1,20 @@
+<!-- Activity feeds -->
+<text hidden='{{hasNewNotifications}}'>没有新的未读消息</text>
+
+<scroll-view style="height: {{notificationsScrollViewHeight - 20}}px" 
+              scroll-y="true" lower-threshold="300rpx"
+              bindscrolltolower="getMoreNotifications" >
+  <view class="repo-list weui-cells weui-cells_after-title" 
+        wx:for="{{notificationMessages}}">
+    <navigator url="" 
+                class="weui-cell weui-cell_access" 
+                hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <icon class='fa fa-envelope' aria-hidden="true"></icon>
+      </view>
+      <view class="weui-cell__bd">
+        <text class="repo-item">{{item.subject.title}}</text>
+      </view>
+    </navigator>
+  </view>
+</scroll-view>
