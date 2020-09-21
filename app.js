@@ -48,6 +48,7 @@ App({
     urls: {
       // 发布版需要将其替换成一个已备案的域名
       // 并将其添加到小程序后台的"request合法域名"中
+      // 该域名指向的云引擎已经关闭，不再提供服务，你需要自行在LeanCloud上搭建自己的云引擎
       apiAddress: 'https://ghrevproxy.leanapp.cn/ghapi',
       originalApiAddress: 'https://api.github.com'
     },
